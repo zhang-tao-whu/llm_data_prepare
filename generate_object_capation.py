@@ -125,16 +125,16 @@ class YouTubeVIS_Annotations(object):
         return
 
 
-ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
-
-for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
-    print(image_path, '  ', len(image_annotations), '  ')
-    if len(image_annotations) != 0:
-        print(image_annotations[0].shape)
-    captions = ['this is for test' + image_path] * len(image_annotations)
-    for i in range(len(image_annotations)):
-        captions[i] += '_{}'.format(i)
-    ytvis_annotations.push_image_captions(captions)
-
-ytvis_annotations.save_processed_json_file('./test_out.json')
+# ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
+#
+# for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
+#     print(image_path, '  ', len(image_annotations), '  ')
+#     if len(image_annotations) != 0:
+#         print(image_annotations[0].shape)
+#     captions = ['this is for test' + image_path for i in range(len(image_annotations))]
+#     for i in range(len(image_annotations)):
+#         captions[i] += '_obj{}'.format(i)
+#     ytvis_annotations.push_image_captions(captions)
+#
+# ytvis_annotations.save_processed_json_file('./test_out.json')
 
