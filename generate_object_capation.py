@@ -111,6 +111,7 @@ class YouTubeVIS_Annotations(object):
         return
 
     def save_processed_json_file(self, save_dir):
+        self._merge_caption_to_annotations()
         new_json_file = {}
         for key in ['info', 'licenses', 'categories']:
             new_json_file.update({key: self.json_file[key]})
