@@ -33,9 +33,19 @@ class YouTubeVIS_Annotations(object):
                 ret[annotation['video_id']] = [annotation]
         return ret
 
-    def _rle2mask(self, rles):
-        print(rles)
-        mask = mask_util.decode([rles])
+    def _rle2mask(self, segm, h, w):
+        if type(segm) == list:
+            # polygon -- a single object might consist of multiple parts
+            # we merge all parts into one mask rle code
+            rles = mask_util.frPyObjects(segm, h, w)
+            rle = mask_util.merge(rles)
+        elif type(segm['counts']) == list:
+            # uncompressed RLE
+            rle = mask_util.frPyObjects(segm, h, w)
+        else:
+            # rle
+            rle = segm
+        mask = mask_util.decode([rle])
         print(mask.shape)
         return mask
 
@@ -43,6 +53,7 @@ class YouTubeVIS_Annotations(object):
         self.video_id2captions = {}
         self.allow_push = False
         for video_id in self.video_ids:
+            height, width = self.videos[video_id]["height"], self.videos[video_id]["width"]
             for image_id, image_path in enumerate(self.videos[video_id]['file_names']):
                 self.cur_process = (video_id, image_id)
                 annotation = self.video_id2annotations[video_id]
@@ -53,7 +64,8 @@ class YouTubeVIS_Annotations(object):
                         self.cur_valid.append(False)
                     else:
                         self.cur_valid.append(True)
-                        image_annotation.append(self._rle2mask(object_annotation['segmentations'][image_id]))
+                        image_annotation.append(self._rle2mask(object_annotation['segmentations'][image_id],
+                                                               h=height, w=width))
                 self.allow_push = True
                 yield image_path, image_annotation
 
