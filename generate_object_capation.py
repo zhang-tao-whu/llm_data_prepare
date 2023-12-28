@@ -69,24 +69,24 @@ class YouTubeVIS_Annotations(object):
         if video_id not in self.video_id2captions.keys():
             # init for per object
             assert image_id == 0
-            self.video_id2annotations[video_id] = [[] for item in self.cur_valid]
+            self.video_id2captions[video_id] = [[] for item in self.cur_valid]
             cap_id = 0
             for i, valid in enumerate(self.cur_valid):
                 if not valid:
-                    self.video_id2annotations[video_id][i].append(None)
+                    self.video_id2captions[video_id][i].append(None)
                 else:
-                    self.video_id2annotations[video_id][i].append(captions[cap_id])
+                    self.video_id2captions[video_id][i].append(captions[cap_id])
                     cap_id += 1
         else:
             # check length
-            for item in self.video_id2annotations[video_id]:
+            for item in self.video_id2captions[video_id]:
                 assert len(item) == image_id
             cap_id = 0
             for i, valid in enumerate(self.cur_valid):
                 if not valid:
-                    self.video_id2annotations[video_id][i].append(None)
+                    self.video_id2captions[video_id][i].append(None)
                 else:
-                    self.video_id2annotations[video_id][i].append(captions[cap_id])
+                    self.video_id2captions[video_id][i].append(captions[cap_id])
                     cap_id += 1
         self.allow_push = False
         return None
@@ -119,7 +119,9 @@ for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
     print(image_path, '  ', len(image_annotations), '  ')
     if len(image_annotations) != 0:
         print(image_annotations[0].shape)
-    captions = ['this is for test'] * len(image_annotations)
+    captions = ['this is for test' + image_path] * len(image_annotations)
+    for i in range(len(captions)):
+        captions[i] += '_{}'.format(i)
     ytvis_annotations.push_image_captions(captions)
 
 ytvis_annotations.save_processed_json_file('./test_out.json')
