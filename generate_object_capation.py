@@ -46,7 +46,6 @@ class YouTubeVIS_Annotations(object):
             # rle
             rle = segm
         mask = mask_util.decode([rle])
-        print(mask.shape)
         return mask
 
     def get_image_and_annos(self):
@@ -133,7 +132,7 @@ for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
     if len(image_annotations) != 0:
         print(image_annotations[0].shape)
     captions = ['this is for test' + image_path] * len(image_annotations)
-    for i in range(len(captions)):
+    for i in range(len(image_annotations)):
         captions[i] += '_{}'.format(i)
     ytvis_annotations.push_image_captions(captions)
 
