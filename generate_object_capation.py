@@ -125,7 +125,7 @@ class YouTubeVIS_Annotations(object):
         return
 
 
-ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json')
+ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
 
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
     print(image_path, '  ', len(image_annotations), '  ')
