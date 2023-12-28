@@ -12,7 +12,7 @@ class YouTubeVIS_Annotations(object):
         self.video_id2annotations = self._get_video_annotations()
         self.video_ids = list(self.videos.keys())
         self.video_ids.sort()
-        print("buided indexes")
+        print("buided indexes ...")
 
         if debug:
             max_length = 3
@@ -115,7 +115,9 @@ class YouTubeVIS_Annotations(object):
 ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json')
 
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
-    print(image_path, '  ', len(image_annotations), '  ', image_annotations[0].shape)
+    print(image_path, '  ', len(image_annotations), '  ')
+    if len(image_annotations) != 0:
+        print(image_annotations[0].shape)
     captions = ['this is for test'] * len(image_annotations)
     ytvis_annotations.push_image_captions(captions)
 
