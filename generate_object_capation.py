@@ -34,6 +34,7 @@ class YouTubeVIS_Annotations(object):
         return ret
 
     def _rle2mask(self, rles):
+        print(rles)
         mask = mask_util.decode([rles])
         print(mask.shape)
         return mask
