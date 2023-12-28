@@ -45,6 +45,7 @@ class YouTubeVIS_Annotations(object):
             for image_id, image_path in enumerate(self.videos[video_id]['file_names']):
                 self.cur_process = (video_id, image_id)
                 annotation = self.video_id2annotations[video_id]
+                print(annotation)
                 image_annotation = []
                 self.cur_valid = []
                 for object_annotation in annotation:
