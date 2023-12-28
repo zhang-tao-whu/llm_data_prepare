@@ -7,10 +7,12 @@ class YouTubeVIS_Annotations(object):
     def __init__(self, json_file, debug=False):
         with open(json_file, 'r') as f:
             self.json_file = json.load(f)
+        print("loaded ...")
         self.videos = self._get_video_id()
         self.video_id2annotations = self._get_video_annotations()
         self.video_ids = list(self.videos.keys())
         self.video_ids.sort()
+        print("buided indexes")
 
         if debug:
             max_length = 3
@@ -19,7 +21,7 @@ class YouTubeVIS_Annotations(object):
     def _get_video_id(self):
         ret = {}
         for video in self.json_file['videos']:
-            ret[video['video_id']] = video
+            ret[video['id']] = video
         return ret
 
     def _get_video_annotations(self):
