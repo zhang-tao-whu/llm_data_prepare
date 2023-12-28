@@ -48,7 +48,7 @@ class YouTubeVIS_Annotations(object):
                 image_annotation = []
                 self.cur_valid = []
                 for object_annotation in annotation:
-                    if object_annotation is None:
+                    if object_annotation['segmentations'][image_id] is None:
                         self.cur_valid.append(False)
                     else:
                         self.cur_valid.append(True)
