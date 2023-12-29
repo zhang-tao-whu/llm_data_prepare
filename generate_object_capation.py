@@ -1,6 +1,9 @@
 import json
 import pycocotools.mask as mask_util
 import numpy as np
+from Osprey.demo.osprey_inference import Osprey
+import cv2
+import os
 
 class YouTubeVIS_Annotations(object):
 
@@ -124,17 +127,33 @@ class YouTubeVIS_Annotations(object):
             json.dump(new_json_file, f)
         return
 
+class Mask2Caption(object):
+    def __init__(self, osprey_checkpoint, image_dir):
+        self.osprey_model = Osprey(osprey_checkpoint)
+        self.image_dir = image_dir
 
-# ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
-#
-# for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
-#     print(image_path, '  ', len(image_annotations), '  ')
-#     if len(image_annotations) != 0:
-#         print(image_annotations[0].shape)
-#     captions = ['this is for test' + image_path for i in range(len(image_annotations))]
-#     for i in range(len(image_annotations)):
-#         captions[i] += '_obj{}'.format(i)
-#     ytvis_annotations.push_image_captions(captions)
-#
-# ytvis_annotations.save_processed_json_file('./test_out.json')
+    def process_image_masks(self, image_path, masks):
+        image_path = os.path.join(self.image_dir, image_path)
+        captions = []
+        image = cv2.imread(image_path)[:, :, ::-1]
+        for mask in masks:
+            mask = mask[:, :, 0]
+            mask = mask[None, :, :]
+            caption = self.osprey_model.osprey_predict(image, mask, type='detail description')
+            captions.append(caption)
+        return captions
+
+ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
+mask2caption = Mask2Caption('./checkpoint_osprey', './ytvis21/train/JPEGImages')
+
+for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
+    print(image_path, '  ', len(image_annotations), '  ')
+    if len(image_annotations) != 0:
+        captions = mask2caption.process_image_masks(image_path, image_annotations)
+    else:
+        captions = []
+    print(captions)
+    ytvis_annotations.push_image_captions(captions)
+
+ytvis_annotations.save_processed_json_file('./test_out.json')
 
