@@ -155,8 +155,8 @@ work_id = 0
 need_process_nums = 750
 
 
-# ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', split=(work_id * need_process_nums, work_id * need_process_nums + need_process_nums))
-ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
+ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', split=(work_id * need_process_nums, work_id * need_process_nums + need_process_nums))
+# ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
 mask2caption = Mask2Caption('./checkpoint_osprey/Osprey-7b/', './ytvis21/train/JPEGImages')
 
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
