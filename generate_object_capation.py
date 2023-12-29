@@ -61,6 +61,7 @@ class YouTubeVIS_Annotations(object):
         self.video_id2captions = {}
         self.allow_push = False
         for video_id in self.video_ids:
+            print("processing video {} ...".format(video_id))
             height, width = self.videos[video_id]["height"], self.videos[video_id]["width"]
             for image_id, image_path in enumerate(self.videos[video_id]['file_names']):
                 self.cur_process = (video_id, image_id)
@@ -150,6 +151,11 @@ class Mask2Caption(object):
             captions.append(caption)
         return captions
 
+work_id = 0
+need_process_nums = 750
+
+
+# ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', split=(work_id * need_process_nums, work_id * need_process_nums + need_process_nums))
 ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
 mask2caption = Mask2Caption('./checkpoint_osprey/Osprey-7b/', './ytvis21/train/JPEGImages')
 
@@ -160,5 +166,5 @@ for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
         captions = []
     ytvis_annotations.push_image_captions(captions)
 
-ytvis_annotations.save_processed_json_file('./test_out.json')
+ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
 
