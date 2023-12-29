@@ -23,3 +23,4 @@ def chat(questions):
     return response.content
 
 ret = chat("please transfer this text into chinese: Can use the slides you prepared before ha.")
+print(ret)
