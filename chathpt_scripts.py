@@ -5,7 +5,7 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-my_keys = 'sk-0YcDvtk0GhNAB72K4dA3354eC4D64a' + 'A3Bd11181249785489'
+my_keys = 'sk-0YcDvtk0GhNAB72K4dA335' + '4eC4D64aA3Bd11181249785489'
 openai.api_key = my_keys
 
 # system prompt，用于告诉GPT当前的情景，不了解可以放空，没有影响。
