@@ -4,6 +4,7 @@ import numpy as np
 from Osprey_cap.demo.osprey_inference import Osprey
 import cv2
 import os
+from tqdm import tqdm
 
 class YouTubeVIS_Annotations(object):
 
@@ -63,7 +64,7 @@ class YouTubeVIS_Annotations(object):
         for video_id in self.video_ids:
             print("processing video {} ...".format(video_id))
             height, width = self.videos[video_id]["height"], self.videos[video_id]["width"]
-            for image_id, image_path in enumerate(self.videos[video_id]['file_names']):
+            for image_id, image_path in tqdm(enumerate(self.videos[video_id]['file_names'])):
                 self.cur_process = (video_id, image_id)
                 annotation = self.video_id2annotations[video_id]
                 image_annotation = []
@@ -117,6 +118,7 @@ class YouTubeVIS_Annotations(object):
             assert len(self.video_id2captions[video_id]) == len(self.video_id2annotations[video_id])
             for obj_idx in range(len(self.video_id2captions[video_id])):
                 self.video_id2annotations[video_id][obj_idx]['caption'] = self.video_id2captions[video_id][obj_idx]
+        self.video_id2captions = {}
         return
 
     def save_processed_json_file(self, save_dir):
@@ -151,7 +153,7 @@ class Mask2Caption(object):
             captions.append(caption)
         return captions
 
-work_id = 3
+work_id = 0
 need_process_nums = 750
 
 
@@ -159,12 +161,16 @@ ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', spl
 # ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
 mask2caption = Mask2Caption('./checkpoint_osprey/Osprey-7b/', './ytvis21/train/JPEGImages')
 
+new_finished = 0
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
     if len(image_annotations) != 0:
         captions = mask2caption.process_image_masks(image_path, image_annotations)
     else:
         captions = []
     ytvis_annotations.push_image_captions(captions)
+    new_finished += 1
+    if new_finished >= 50:
+        ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
 
 ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
 
