@@ -41,7 +41,6 @@ class MaskExtractor(nn.Module):
         query_feats = []
         pos_feats = []
         num_imgs = len(masks)
-        print(masks[0].shape)
 
         for idx in range(num_imgs):
             mask = masks[idx].unsqueeze(0).float()
@@ -96,6 +95,7 @@ class MaskPooling(nn.Module):
         super().__init__()
 
     def forward(self, x, mask):
+        print(mask.shape, x.shape)
 
         if not x.shape[-2:] == mask.shape[-2:]:
             # reshape mask to x
