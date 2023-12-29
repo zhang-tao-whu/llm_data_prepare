@@ -73,7 +73,7 @@ class Osprey():
 
         self.input_ids_short = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(self.model.device)
 
-        detailed_question = 'Can you give me a detailed description of <mask><pos>, including class, color and location?'
+        detailed_question = 'Can you give me a detailed description of <mask><pos>?'
         
         conv = conv_templates['osprey_v1'].copy()
         qs = begin_str+detailed_question
