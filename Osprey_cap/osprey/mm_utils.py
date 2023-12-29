@@ -4,7 +4,7 @@ import base64
 
 import torch
 from transformers import StoppingCriteria
-from osprey.constants import IMAGE_TOKEN_INDEX
+from Osprey_cap.osprey.constants import IMAGE_TOKEN_INDEX
 
 
 def load_image_from_base64(image):

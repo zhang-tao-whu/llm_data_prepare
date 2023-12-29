@@ -25,12 +25,12 @@ import torch
 
 import transformers
 
-from osprey.constants import IGNORE_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
+from Osprey_cap.osprey.constants import IGNORE_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 from .osprey_trainer import OspreyTrainer
 
-from osprey import conversation as conversation_lib
-from osprey.model import *
-from osprey.mm_utils import tokenizer_image_token
+from Osprey_cap.osprey import conversation as conversation_lib
+from Osprey_cap.osprey.model import *
+from Osprey_cap.osprey.mm_utils import tokenizer_image_token
 
 
 local_rank = None
