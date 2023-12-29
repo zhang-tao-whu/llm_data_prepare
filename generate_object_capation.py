@@ -138,7 +138,7 @@ class Mask2Caption(object):
         image = cv2.imread(image_path)[:, :, ::-1]
         for mask in masks:
             mask = mask[:, :, 0]
-            mask = mask[None, :, :]
+            # mask = mask[None, :, :]
             caption = self.osprey_model.osprey_predict(image, mask, type='detail description')
             captions.append(caption)
         return captions
