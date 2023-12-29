@@ -144,7 +144,7 @@ class Mask2Caption(object):
         return captions
 
 ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
-mask2caption = Mask2Caption('./checkpoint_osprey', './ytvis21/train/JPEGImages')
+mask2caption = Mask2Caption('./checkpoint_osprey/Osprey-7b/', './ytvis21/train/JPEGImages')
 
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
     print(image_path, '  ', len(image_annotations), '  ')
