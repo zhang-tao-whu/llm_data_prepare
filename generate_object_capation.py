@@ -1,7 +1,7 @@
 import json
 import pycocotools.mask as mask_util
 import numpy as np
-from Osprey.demo.osprey_inference import Osprey
+from Osprey_cap.demo.osprey_inference import Osprey
 import cv2
 import os
 
