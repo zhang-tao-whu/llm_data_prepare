@@ -153,7 +153,7 @@ class Mask2Caption(object):
             captions.append(caption)
         return captions
 
-work_id = 3
+work_id = 0
 need_process_nums = 750
 
 
@@ -161,16 +161,14 @@ ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', spl
 # ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
 mask2caption = Mask2Caption('./checkpoint_osprey/Osprey-7b/', './ytvis21/train/JPEGImages')
 
-new_finished = 0
+
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
     if len(image_annotations) != 0:
         captions = mask2caption.process_image_masks(image_path, image_annotations)
     else:
         captions = []
     ytvis_annotations.push_image_captions(captions)
-    new_finished += 1
-    if new_finished >= 50:
-        ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
+
 
 ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
 
