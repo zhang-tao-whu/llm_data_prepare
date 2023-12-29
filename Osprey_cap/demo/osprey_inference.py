@@ -118,7 +118,7 @@ class Osprey():
                 input_ids,
                 images=image.unsqueeze(0).half().to(self.model.device),
                 do_sample=True,
-                temperature=0.0,
+                temperature=0.001,
                 max_new_tokens=1024,
                 use_cache=True,
                 num_beams=1,
