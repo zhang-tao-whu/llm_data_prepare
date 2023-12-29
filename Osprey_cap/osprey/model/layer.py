@@ -41,7 +41,7 @@ class MaskExtractor(nn.Module):
         query_feats = []
         pos_feats = []
         num_imgs = len(masks)
-        print(masks.shape)
+        print(masks[0].shape)
 
         for idx in range(num_imgs):
             mask = masks[idx].unsqueeze(0).float()
