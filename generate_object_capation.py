@@ -151,7 +151,7 @@ class Mask2Caption(object):
             captions.append(caption)
         return captions
 
-work_id = 1
+work_id = 2
 need_process_nums = 750
 
 
