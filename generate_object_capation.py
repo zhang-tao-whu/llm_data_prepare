@@ -7,7 +7,7 @@ import os
 
 class YouTubeVIS_Annotations(object):
 
-    def __init__(self, json_file, debug=False):
+    def __init__(self, json_file, debug=False, split=None):
         with open(json_file, 'r') as f:
             self.json_file = json.load(f)
         print("loaded ...")
@@ -19,7 +19,13 @@ class YouTubeVIS_Annotations(object):
 
         if debug:
             max_length = 1
+            print(len(self.video_ids))
             self.video_ids = self.video_ids[:max_length]
+        else:
+            if split is not None:
+                start, end = split
+                end = min(len(self.video_ids), end)
+                self.video_ids = self.video_ids[start: end]
 
     def _get_video_id(self):
         ret = {}
@@ -148,12 +154,10 @@ ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', deb
 mask2caption = Mask2Caption('./checkpoint_osprey/Osprey-7b/', './ytvis21/train/JPEGImages')
 
 for image_path, image_annotations in ytvis_annotations.get_image_and_annos():
-    print(image_path, '  ', len(image_annotations), '  ')
     if len(image_annotations) != 0:
         captions = mask2caption.process_image_masks(image_path, image_annotations)
     else:
         captions = []
-    print(captions)
     ytvis_annotations.push_image_captions(captions)
 
 ytvis_annotations.save_processed_json_file('./test_out.json')
