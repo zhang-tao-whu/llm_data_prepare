@@ -18,7 +18,7 @@ class YouTubeVIS_Annotations(object):
         print("buided indexes ...")
 
         if debug:
-            max_length = 3
+            max_length = 1
             self.video_ids = self.video_ids[:max_length]
 
     def _get_video_id(self):
@@ -139,7 +139,8 @@ class Mask2Caption(object):
         for mask in masks:
             mask = mask[:, :, 0]
             # mask = mask[None, :, :]
-            caption = self.osprey_model.osprey_predict(image, mask, type='detail description')
+            # caption = self.osprey_model.osprey_predict(image, mask, type='detail description')
+            caption = self.osprey_model.osprey_predict(image, mask, type='short description')
             captions.append(caption)
         return captions
 

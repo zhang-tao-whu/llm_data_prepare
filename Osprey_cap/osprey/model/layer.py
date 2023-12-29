@@ -95,7 +95,6 @@ class MaskPooling(nn.Module):
         super().__init__()
 
     def forward(self, x, mask):
-        print(mask.shape, x.shape)
 
         if not x.shape[-2:] == mask.shape[-2:]:
             # reshape mask to x
