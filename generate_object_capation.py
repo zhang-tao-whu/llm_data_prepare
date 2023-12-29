@@ -139,8 +139,8 @@ class Mask2Caption(object):
         for mask in masks:
             mask = mask[:, :, 0]
             # mask = mask[None, :, :]
-            # caption = self.osprey_model.osprey_predict(image, mask, type='detail description')
-            caption = self.osprey_model.osprey_predict(image, mask, type='short description')
+            caption = self.osprey_model.osprey_predict(image, mask, type='detail description')
+            # caption = self.osprey_model.osprey_predict(image, mask, type='short description')
             captions.append(caption)
         return captions
 
