@@ -43,7 +43,7 @@ for i, caption in enumerate(captions):
     format_captions = format_captions + 'frame{}: {},'.format(i, caption)
 format_captions = format_captions + '}'
 
-system_messages = [SystemMessage(content="You are an AI visual assistant that can analyze a video. There is a caption of an object in consecutive video frames, but the caption in a small number of frames may contain errors. The caption includes the object category, color, and spatial position. In a video, the object should have a consistent category and color, but the spatial position may change. You need to correct any errors that may exist based on the caption of the object in all frames and reorganize the description of each frame in a unified format. The descriptions to be processed are given in the following format: {frame1: caption1, frame2: caption2, ..., frameT: captionT}.")]
+system_messages = "You are an AI visual assistant that can analyze a video. There is a caption of an object in consecutive video frames, but the caption in a small number of frames may contain errors. The caption includes the object category, color, and spatial position. In a video, the object should have a consistent category and color, but the spatial position may change. You need to correct any errors that may exist based on the caption of the object in all frames and reorganize the description of each frame in a unified format. The descriptions to be processed are given in the following format: {frame1: caption1, frame2: caption2, ..., frameT: captionT}."
 
 from openai import OpenAI
 
@@ -52,7 +52,7 @@ client = OpenAI(api_key=my_keys, base_url=api_base)
 
 completion = client.chat.completions.create(
   model="gpt-3.5-turbo",
-  messages=system_messages + [{"role": "user", "content": "{}".format(format_captions)}]
+  messages=[{"role": 'system', "content": system_messages}, {"role": "user", "content": "{}".format(format_captions)}]
 )
 
 print(completion.choices[0].message.content)
