@@ -19,7 +19,7 @@ captions = ["A car is visible in the background, positioned behind the bus. It a
             "A car is visible in the background, positioned behind the bus. It appears to be a black car, although the details are not clear.",
             "A bus is parked behind the car, visible only partially due to the angle of the car.",
             "A panda bear is sitting on a log, its front paws gripping the bark as it holds onto a branch. The bear appears to be eating bamboo, its mouth wide open as it reaches for the plant."]
-idx = -2
+idx = -6
 format_captions = 'Descriptions: ' + captions[idx] + "\n " + "Label category: car."
 # for caption in captions[:5]:
 #     format_captions = format_captions + "\"" + caption + "\", "
