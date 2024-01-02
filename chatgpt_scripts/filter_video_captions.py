@@ -31,21 +31,21 @@ format_captions = 'Descriptions: ' + captions[idx] + "\n " + "Label category: ca
 # Descriptions: [\"A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\", \"A baby monkey is being held by its mother in the grass. The baby monkey is small and seems to be feeding, while the mother monkey watches over it carefully.\", \"A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\", \"A baby elephant is visible, it appears to be feeding from its mother. The baby elephant is small and seems to be nursing from its mother's leg.\"]\n \
 # Label category: chimp\n \
 # Your answer should be: [True, True, False, False]\n"
-system_messages = "You are an AI visual assistant. There is a description of an object, and the description may contain errors. Given the label category of the object, please determine if the object category in the description is consistent with the label category. Synonyms are considered consistent, such as chimp and gorilla. Your answer should True or False, where True represents that the object category in the description is similar or consistent with the label category, while False indicates that there is a significant conflict between them.\n \
-There is some examples:\n \
-Descriptions: A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\n \
-Label category: chimp\n \
-Your answer should be: True\n \
-Descriptions: A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\n \
-Label category: ape\n \
-Your answer should be: True\n \
-Descriptions: A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\n \
-Label category: chimp\n \
-Your answer should be: False\n \
-Descriptions: An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.\n \
-Label category: chimp\n \
-Your answer should be: True\n \
-"
+system_messages = "You are an AI visual assistant. There is a description of an object, and the description may contain errors. Given the label category of the object, please determine if the object category in the description is consistent with the label category. Synonyms are considered consistent, such as chimp and gorilla. Your answer should True or False, where True represents that the object category in the description is similar or consistent with the label category, while False indicates that there is a significant conflict between them.\n"
+# There is some examples:\n \
+# Descriptions: A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\n \
+# Label category: chimp\n \
+# Your answer should be: True\n \
+# Descriptions: A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\n \
+# Label category: ape\n \
+# Your answer should be: True\n \
+# Descriptions: A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\n \
+# Label category: chimp\n \
+# Your answer should be: False\n \
+# Descriptions: An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.\n \
+# Label category: chimp\n \
+# Your answer should be: True\n \
+# "
 from openai import OpenAI
 
 api_base = "https://cd.aiskt.com/v1"
