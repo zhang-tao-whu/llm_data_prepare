@@ -1,7 +1,8 @@
 import json
 import os
 from openai import OpenAI
-from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion, system_messages_positive_instruction_generate
+from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion,\
+    system_messages_positive_instruction_generate, system_messages_style_transfer
 
 my_keys = 'sk-hlV40Lxa6Ce1OwJg89083e' + '8b005040D2A10eFa2c096631Bd'
 
@@ -72,6 +73,17 @@ class InstructionGenerater(object):
 
         return completion.choices[0].message.content
 
+    def _change_style(self, words):
+        client = OpenAI(api_key=self.api_key, base_url=self.api_base)
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": 'system', "content": system_messages_style_transfer},
+                      {"role": "user", "content": "{}".format(words)}],
+            temperature=0.01
+        )
+        return completion.choices[0].message.content
+
     def get_instruction_datas(self, obj1, obj2):
         # obj {'image_files': [img1_path, img2_path], 'segmentations': [{rle1}, {rle2}],
         # "captions": [cap1, cap2], 'image_size': [w, h], 'bboxes': [box1, box2], "categories": class_name}
@@ -97,3 +109,7 @@ ret = generater._generate_pos_data(caption1="An adult, possibly male, gorilla is
                                    caption2="An adult, possibly male, chimpanzee is seen in the image. This chimpanzee is standing tall, with its mouth open, possibly making a distinctive sound or displaying some form of communication. It appears to be the dominant figure in the scene.",
                                    motion_caption="The object is moving to the right.")
 print(ret)
+
+print('transfered ------------')
+
+print(generater._change_style(ret))
