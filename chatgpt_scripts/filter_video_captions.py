@@ -30,7 +30,7 @@ captions = ["An adult, possibly male, gorilla is prominently featured in the ima
             "A large, possibly adult, elephant is prominently featured in the image. It is sitting in a grassy field, with its face completely covered by its hands. The elephant appears to be in a relaxed or contented state, possibly enjoying the serene environment.",
             "A large, black, and possibly dirty-looking monkey is sitting in the grass. The monkey seems to be holding its hands up in front of its face, possibly in a protective or playful manner."]
 
-idx = 0
+idx = -1
 format_captions = 'Descriptions: ' + captions[idx] + "\n " + "Label category: chimp."
 # for caption in captions[:5]:
 #     format_captions = format_captions + "\"" + caption + "\", "
