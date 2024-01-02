@@ -40,7 +40,8 @@ system_messages = "You are an AI visual assistant. There is a description of an 
 There is a example:\n \
 Descriptions: [\"A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\", \"A baby monkey is being held by its mother in the grass. The baby monkey is small and seems to be feeding, while the mother monkey watches over it carefully.\", \"A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\", \"A baby elephant is visible, it appears to be feeding from its mother. The baby elephant is small and seems to be nursing from its mother's leg.\"]\n \
 Label category: chimp\n \
-Your answer should be: [True, True, False, False]"
+Your answer should be: [True, True, False, False]\n \
+Due to \"chimp,\" \"ape,\" \"monkey,\" and \"gorilla\" being synonyms, but \"elephant\" is not."
 from openai import OpenAI
 
 api_base = "https://cd.aiskt.com/v1"
