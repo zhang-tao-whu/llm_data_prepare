@@ -1,4 +1,4 @@
-my_keys = 'sk-hlV40Lxa6Ce1OwJg89083e' + '8b005040D2A10eFa2c096631Bd'
+my_keys = 'AIzaSyCQcruT1qLvh4udqZdKTbs' + 'B6036uNpZUdQ'
 
 captions = ["An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.",
             "An adult, possibly male, chimpanzee is seen in the image. This chimpanzee is standing tall, with its mouth open, possibly making a distinctive sound or displaying some form of communication. It appears to be the dominant figure in the scene.",
@@ -31,7 +31,7 @@ captions = ["An adult, possibly male, gorilla is prominently featured in the ima
             "A large, black, and possibly dirty-looking monkey is sitting in the grass. The monkey seems to be holding its hands up in front of its face, possibly in a protective or playful manner."]
 
 format_captions = 'Descriptions: ['
-for caption in captions[-5:]:
+for caption in captions:
     format_captions = format_captions + "\"" + caption + "\", "
 format_captions = format_captions + "]\n"
 format_captions = format_captions + "Label category: chimp\n"
@@ -41,14 +41,12 @@ There is a example:\n \
 Descriptions: [\"A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\", \"A baby monkey is being held by its mother in the grass. The baby monkey is small and seems to be feeding, while the mother monkey watches over it carefully.\", \"A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\", \"A baby elephant is visible, it appears to be feeding from its mother. The baby elephant is small and seems to be nursing from its mother's leg.\"]\n \
 Label category: chimp\n \
 Your answer should be: [True, True, False, False]"
-from openai import OpenAI
 
-api_base = "https://cd.aiskt.com/v1"
-client = OpenAI(api_key=my_keys, base_url=api_base)
-
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[{"role": 'system', "content": system_messages}, {"role": "user", "content": "{}".format(format_captions)}]
-)
-
-print(completion.choices[0].message.content)
+import google.generativeai as genai
+genai.configure(api_key="xxxxx")
+model = genai.GenerativeModel(model_name="gemini-pro")
+prompt_parts = [
+    "写一个 Python 函数并向我解释",
+]
+response = model.generate_content(prompt_parts)
+print(response.text)
