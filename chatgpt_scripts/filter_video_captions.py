@@ -31,7 +31,7 @@ captions = ["An adult, possibly male, gorilla is prominently featured in the ima
             "A large, black, and possibly dirty-looking monkey is sitting in the grass. The monkey seems to be holding its hands up in front of its face, possibly in a protective or playful manner."]
 
 format_captions = 'Descriptions: ['
-for caption in captions[-5:]:
+for caption in captions[:5]:
     format_captions = format_captions + "\"" + caption + "\", "
 format_captions = format_captions + "]\n"
 format_captions = format_captions + "Label category: chimp\n And please give the reason.\n"
