@@ -66,7 +66,8 @@ class InstructionGenerater(object):
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": 'system', "content": system_messages_positive_instruction_generate},
-                      {"role": "user", "content": "{}".format(format_captions)}]
+                      {"role": "user", "content": "{}".format(format_captions)}],
+            temperature=0.01
         )
 
         return completion.choices[0].message.content
