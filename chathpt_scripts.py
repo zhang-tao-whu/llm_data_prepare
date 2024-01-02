@@ -57,8 +57,8 @@ captions = ["A baby chimp, possibly a baby monkey, is being held by a larger chi
 
 format_captions = '['
 select_idxs = [1, 2]
-format_captions = format_captions + '\{caption1: {}, caption2: {}}, '.format(captions[select_idxs[0]], captions[select_idxs[1]])
-format_captions = format_captions + '\{location1: [0.56, 0.44, 0.71, 0.66], location2: [0.51, 0.22, 0.69, 0.41]}'
+format_captions = format_captions + '{' + 'caption1: {}, caption2: {}'.format(captions[select_idxs[0]], captions[select_idxs[1]]) + '}, '
+format_captions = format_captions + '{location1: [0.56, 0.44, 0.71, 0.66], location2: [0.51, 0.22, 0.69, 0.41]}'
 format_captions = format_captions + ']'
 
 #system_messages = "You are an AI visual assistant that can analyze a video. There is a caption of an object in consecutive video frames, but the caption in a small number of frames may contain errors. The caption includes the object category, color, and spatial position. In a video, the object should have a consistent category and color, but the spatial position may change. You need to correct any errors that may exist based on the caption of the object in all frames and reorganize the description of each frame in a unified format. The descriptions to be processed are given in the following format: {frame1: caption1, frame2: caption2, ..., frameT: captionT}."
