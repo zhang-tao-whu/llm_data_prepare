@@ -34,7 +34,7 @@ format_captions = 'Descriptions: ['
 for caption in captions[-5:]:
     format_captions = format_captions + "\"" + caption + "\", "
 format_captions = format_captions + "]\n"
-format_captions = format_captions + "Label category: chimp\n"
+format_captions = format_captions + "Label category: chimp\n And please give the reason.\n"
 
 system_messages = "You are an AI visual assistant. There is a description of an object in each frame of a video, and these descriptions may contain errors. Given the label category of the object, please determine the reliability of each description, where the category in the description may be a synonym of the label category. The format of the description that needs to be evaluated is [caption 1, caption 2, ..., caption n]. Your answer should follow the following format [True, False, ..., True], where True represents that the corresponding caption is reliable, and False represents that the corresponding caption is incorrect or conflicts with the label category.\n \
 There is a example:\n \
