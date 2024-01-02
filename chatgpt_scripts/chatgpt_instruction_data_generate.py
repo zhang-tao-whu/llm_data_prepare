@@ -1,7 +1,7 @@
 import json
 import os
 from openai import OpenAI
-from .system_messages import system_messages_caption_check, system_messages_motion, system_messages_positive_instruction_generate
+from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion, system_messages_positive_instruction_generate
 
 my_keys = 'sk-hlV40Lxa6Ce1OwJg89083e' + '8b005040D2A10eFa2c096631Bd'
 
