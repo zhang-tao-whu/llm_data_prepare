@@ -12,7 +12,9 @@ Your answer should be: The object shows no apparent movement.\n \
 Locations: {frame1: [0.786, 0.25, 0.848, 0.322], frame2: [0.786, 0.282, 0.850, 0.353]}\n \
 Your answer should be: The object is moving downwards.\n \
 Locations: {frame1: [0.786, 0.44, 0.848, 0.69], frame2: [0.786, 0.282, 0.850, 0.534]}\n \
-Your answer should be: The object is moving upwards."
+Your answer should be: The object is moving upwards.\n \
+Locations: {frame1: [0.786, 0.44, 0.848, 0.69], frame2: [0.706, 0.282, 0.771, 0.534]}\n \
+Your answer should be: The object is moving diagonally upwards and to the left."
 from openai import OpenAI
 
 api_base = "https://cd.aiskt.com/v1"
