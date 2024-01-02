@@ -52,7 +52,11 @@ Label category: ape\n \
 Your answer should be: True\n \
 Descriptions: A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\n \
 Label category: chimp\n \
-Your answer should be: False\n"
+Your answer should be: False\n \
+Descriptions: An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.\n \
+Label category: chimp\n \
+Your answer should be: True\n \
+"
 from openai import OpenAI
 
 api_base = "https://cd.aiskt.com/v1"
