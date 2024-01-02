@@ -39,12 +39,12 @@ captions = ["There is a black tire visible on the right side of the bus. It's lo
             "A black car is parked on the street, positioned behind a bus. It appears to be a sizable vehicle, possibly a van or a truck."]
 
 format_captions = '{'
-for i, caption in enumerate(captions):
-    format_captions = format_captions + 'frame{}: {},'.format(i, caption)
+select_idxs = [1, 2]
+format_captions = format_captions + 'caption1: {}, caption2: {}'.format(captions[select_idxs[0]], captions[select_idxs[1]])
 format_captions = format_captions + '}'
 
-system_messages = "You are an AI visual assistant that can analyze a video. There is a caption of an object in consecutive video frames, but the caption in a small number of frames may contain errors. The caption includes the object category, color, and spatial position. In a video, the object should have a consistent category and color, but the spatial position may change. You need to correct any errors that may exist based on the caption of the object in all frames and reorganize the description of each frame in a unified format. The descriptions to be processed are given in the following format: {frame1: caption1, frame2: caption2, ..., frameT: captionT}."
-
+#system_messages = "You are an AI visual assistant that can analyze a video. There is a caption of an object in consecutive video frames, but the caption in a small number of frames may contain errors. The caption includes the object category, color, and spatial position. In a video, the object should have a consistent category and color, but the spatial position may change. You need to correct any errors that may exist based on the caption of the object in all frames and reorganize the description of each frame in a unified format. The descriptions to be processed are given in the following format: {frame1: caption1, frame2: caption2, ..., frameT: captionT}."
+system_messages = "You are an AI visual assistant that can analyze images. There are two images, each with a corresponding caption describing an object in the image. The captions may include the object's category, color, appearance, and spatial position (ignoring spatial position for this task). The two objects are the same object. Please summarize the common features found in the two captions. The captions to be processed are given in the following format: {caption1: xx, caption2: xx}. If there are no common features between the two captions that need to be processed, please let me know “No common features found”."
 from openai import OpenAI
 
 api_base = "https://cd.aiskt.com/v1"
