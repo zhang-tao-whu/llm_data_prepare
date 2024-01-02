@@ -30,17 +30,29 @@ captions = ["An adult, possibly male, gorilla is prominently featured in the ima
             "A large, possibly adult, elephant is prominently featured in the image. It is sitting in a grassy field, with its face completely covered by its hands. The elephant appears to be in a relaxed or contented state, possibly enjoying the serene environment.",
             "A large, black, and possibly dirty-looking monkey is sitting in the grass. The monkey seems to be holding its hands up in front of its face, possibly in a protective or playful manner."]
 
-format_captions = 'Descriptions: ['
-for caption in captions[:5]:
-    format_captions = format_captions + "\"" + caption + "\", "
-format_captions = format_captions + "]\n"
-format_captions = format_captions + "Label category: chimp\n And please give the reason.\n"
+idx = 1
+format_captions = 'Descriptions: ' + captions[idx] + "\n " + "Label category: chimp."
+# for caption in captions[:5]:
+#     format_captions = format_captions + "\"" + caption + "\", "
+# format_captions = format_captions + "]\n"
+# format_captions = format_captions + "Label category: chimp\n And please give the reason.\n"
 
-system_messages = "You are an AI visual assistant. There is a description of an object in each frame of a video, and these descriptions may contain errors. Given the label category of the object, please determine if the object category described is consistent with the label category. Synonyms are considered consistent, such as chimp and monkey. The format of the description that needs to be evaluated is [caption 1, caption 2, ..., caption n]. Your answer should follow the following format [True, False, ..., True], where True represents that the corresponding caption is reliable, and False represents that the corresponding caption is incorrect or conflicts with the label category.\n \
-There is a example:\n \
-Descriptions: [\"A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\", \"A baby monkey is being held by its mother in the grass. The baby monkey is small and seems to be feeding, while the mother monkey watches over it carefully.\", \"A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\", \"A baby elephant is visible, it appears to be feeding from its mother. The baby elephant is small and seems to be nursing from its mother's leg.\"]\n \
+# system_messages = "You are an AI visual assistant. There is a description of an object in each frame of a video, and these descriptions may contain errors. Given the label category of the object, please determine if the object category described is consistent with the label category. Synonyms are considered consistent, such as chimp and monkey. The format of the description that needs to be evaluated is [caption 1, caption 2, ..., caption n]. Your answer should follow the following format [True, False, ..., True], where True represents that the corresponding caption is reliable, and False represents that the corresponding caption is incorrect or conflicts with the label category.\n \
+# There is a example:\n \
+# Descriptions: [\"A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\", \"A baby monkey is being held by its mother in the grass. The baby monkey is small and seems to be feeding, while the mother monkey watches over it carefully.\", \"A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\", \"A baby elephant is visible, it appears to be feeding from its mother. The baby elephant is small and seems to be nursing from its mother's leg.\"]\n \
+# Label category: chimp\n \
+# Your answer should be: [True, True, False, False]\n"
+system_messages = "You are an AI visual assistant. There is a description of an object, and the description may contain errors. Given the label category of the object, please determine if the object category in the description is consistent with the label category. Synonyms are considered consistent, such as chimp and gorilla. Your answer should True or False, where True represents that the object category in the description is similar or consistent with the label category, while False indicates that there is a significant conflict between them.\n \
+There is some examples:\n \
+Descriptions: A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\n \
 Label category: chimp\n \
-Your answer should be: [True, True, False, False]\n"
+Your answer should be: True\n \
+Descriptions: A baby chimp, possibly a baby monkey, is located in the middle of the image. It is being held by another chimp, presumably its mother, and is in the process of feeding.\n \
+Label category: ape\n \
+Your answer should be: True\n \
+Descriptions: A baby elephant is being held by its mother. The baby elephant is small and seems to be feeding. The scene is heartwarming, showcasing the bond between a mother and her young.\n \
+Label category: chimp\n \
+Your answer should be: False\n"
 from openai import OpenAI
 
 api_base = "https://cd.aiskt.com/v1"
