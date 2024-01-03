@@ -106,8 +106,8 @@ class InstructionGenerater(object):
 
 
 generater = InstructionGenerater()
-ret = generater._generate_pos_data(caption1="A car is visible in the background, positioned behind the bus. It appears to be a dark-colored SUV, possibly black, and is located on the right side of the bus.",
-                                   caption2="A black car is parked behind a white van. It's positioned towards the right side of the image, and it's the second car from the right.",
+ret = generater._generate_pos_data(caption1="A panda bear is sitting on a log, holding onto a branch with its mouth. The bear seems to be enjoying its time, as it is surrounded by trees and foliage.",
+                                   caption2="A panda bear is sitting on a log, holding a branch in its mouth. The bear seems to be enjoying its meal, and its position on the log gives a clear view of its surroundings.",
                                    motion_caption="The object is moving to the right.")
 print(ret)
 
