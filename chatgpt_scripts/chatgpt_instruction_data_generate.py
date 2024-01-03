@@ -108,7 +108,7 @@ class InstructionGenerater(object):
 generater = InstructionGenerater()
 ret = generater._generate_pos_data(caption1="A panda bear is sitting on a log, holding onto a branch with its mouth. The bear seems to be enjoying its time, as it is surrounded by trees and foliage.",
                                    caption2="A panda bear is sitting on a log, holding a branch in its mouth. The bear seems to be enjoying its meal, and its position on the log gives a clear view of its surroundings.",
-                                   motion_caption="The object is moving to the right.")
+                                   motion_caption="The object is moving downwards.")
 print(ret)
 
 print('transfered ------------')
