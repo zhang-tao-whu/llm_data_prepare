@@ -106,8 +106,8 @@ class InstructionGenerater(object):
 
 
 generater = InstructionGenerater()
-ret = generater._generate_pos_data(caption1="An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.",
-                                   caption2="An adult, possibly male, chimpanzee is seen in the image. This chimpanzee is standing tall, with its mouth open, possibly making a distinctive sound or displaying some form of communication. It appears to be the dominant figure in the scene.",
+ret = generater._generate_pos_data(caption1="A car is visible in the background, positioned behind the bus. It appears to be a dark-colored SUV, possibly black, and is located on the right side of the bus.",
+                                   caption2="A black car is parked behind a white van. It's positioned towards the right side of the image, and it's the second car from the right.",
                                    motion_caption="The object is moving to the right.")
 print(ret)
 
