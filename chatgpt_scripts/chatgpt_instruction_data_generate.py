@@ -124,5 +124,5 @@ class InstructionGenerater(object):
 generater = InstructionGenerater()
 ret = generater._generate_pos_data(caption1="A young, small, and dark-skinned monkey is sitting in the grass. It appears to be a baby monkey, as it is quite small and seems to be in close proximity to its mother. The monkey is sitting, possibly on the ground, and is looking upwards, seemingly at the camera.",
                                    caption2="A young, small, and dark-skinned monkey is sitting in the grass. It appears to be a baby monkey, as it is quite small and seems to be in close proximity to its mother.",
-                                   motion_caption="The object is moving downwards.")
+                                   motion_caption="The object is moving to the right.")
 print(ret)
