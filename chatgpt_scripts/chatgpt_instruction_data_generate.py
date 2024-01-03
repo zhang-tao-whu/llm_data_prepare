@@ -70,7 +70,7 @@ class InstructionGenerater(object):
                       {"role": "user", "content": "{}".format(format_captions)}],
             temperature=0.01
         )
-        motion_reason = " In addition, in the first frame, we observed that " + motion_caption + " And, in the second frame, the object\'s position aligns with this motion tendency ({}).".format(motion_caption)
+        motion_reason = "The positions of the objects in the two frames are close. In addition, in the first frame, we observed that " + motion_caption + " And, in the second frame, the object\'s position aligns with this motion tendency ({}).".format(motion_caption)
 
         return completion.choices[0].message.content + motion_reason
 
