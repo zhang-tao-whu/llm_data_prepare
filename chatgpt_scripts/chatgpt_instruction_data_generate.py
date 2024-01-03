@@ -61,7 +61,7 @@ class InstructionGenerater(object):
 
     def _generate_pos_data(self, caption1, caption2, motion_caption):
         format_captions = "The captions and motion: {caption1: \"" + caption1 + "\", " + "caption2: \"" + caption2 + \
-                          "\", " + "motion: \"" + motion_caption + "\"}\n"
+                          "\"}\n"
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)
 
         completion = client.chat.completions.create(
@@ -70,8 +70,9 @@ class InstructionGenerater(object):
                       {"role": "user", "content": "{}".format(format_captions)}],
             temperature=0.01
         )
+        motion_reason = "In addition, in the first frame, " + motion_caption + " In the second frame, the object\'s position aligns with this motion tendency."
 
-        return completion.choices[0].message.content
+        return completion.choices[0].message.content + motion_reason
 
     def _change_style(self, words):
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)
