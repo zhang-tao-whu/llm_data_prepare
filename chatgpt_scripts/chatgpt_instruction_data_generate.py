@@ -3,6 +3,14 @@ import os
 from openai import OpenAI
 from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion,\
     system_messages_positive_instruction_generate, system_messages_style_transfer
+from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions
+import random
+import copy
+
+def random_select(data_list):
+    length = len(data_list)
+    idx = random.randint(0, length - 1)
+    return copy.deepcopy(data_list[idx])
 
 my_keys = 'sk-hlV40Lxa6Ce1OwJg89083e' + '8b005040D2A10eFa2c096631Bd'
 
@@ -72,7 +80,15 @@ class InstructionGenerater(object):
         )
         motion_reason = "The positions of the objects in the two frames are close. In addition, in the first frame, we observed that " + motion_caption + " And, in the second frame, the object\'s position aligns with this motion tendency ({}).".format(motion_caption)
 
-        return completion.choices[0].message.content + motion_reason
+        reasons = completion.choices[0].message.content + motion_reason
+        reasons = self._change_style(reasons)
+
+        conversations = []
+        conversations.append({'from': 'human', "value": random_select(justify_questions) + ' ' +\
+                                                        random_select(reason_questions)})
+        conversations.append({'from': 'gpt', "value": random_select(justify_positive_answers) + ' ' +\
+                                                      reasons})
+        return conversations
 
     def _change_style(self, words):
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)
@@ -110,7 +126,3 @@ ret = generater._generate_pos_data(caption1="A panda bear is sitting on a log, h
                                    caption2="A panda bear is sitting on a log, holding a branch in its mouth. The bear seems to be enjoying its meal, and its position on the log gives a clear view of its surroundings.",
                                    motion_caption="The object is moving downwards.")
 print(ret)
-
-print('transfered ------------')
-
-print(generater._change_style(ret))
