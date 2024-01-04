@@ -360,6 +360,14 @@ class YouTubeVIS_Annotations(object):
 generater = InstructionGenerater()
 ytvis_datas = YouTubeVIS_Annotations(json_file='./processed_0.json')
 
+
 obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
 instruction_data = generater.get_instruction_datas(obj1, obj2)
+n_try=0
+while len(instruction_data) == 0:
+    if n_try >= 10:
+        break
+    obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
+    instruction_data = generater.get_instruction_datas(obj1, obj2)
+    n_try += 1
 print(instruction_data)
