@@ -79,7 +79,7 @@ class InstructionGenerater(object):
         return completion.choices[0].message.content
 
     def _generate_pos_data(self, caption1, caption2, motion_caption):
-        format_captions = "The captions and motion: {caption1: \"" + caption1 + "\", " + "caption2: \"" + caption2 + \
+        format_captions = "The captions: {caption1: \"" + caption1 + "\", " + "caption2: \"" + caption2 + \
                           "\"}\n"
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)
 
