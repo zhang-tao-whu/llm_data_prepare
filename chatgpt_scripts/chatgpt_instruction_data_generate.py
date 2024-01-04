@@ -289,7 +289,7 @@ class YouTubeVIS_Annotations(object):
             ret['image_files'] = video_info['file_names'][select_idx: select_idx + 2]
             ret['segmentations'] = obj_anno['segmentations'][select_idx: select_idx + 2]
             ret['bboxes'] = obj_anno['bboxes'][select_idx: select_idx + 2]
-            ret['captions'] = obj_anno['captions'][select_idx: select_idx + 2]
+            ret['captions'] = obj_anno['caption'][select_idx: select_idx + 2]
             ret['image_size'] = [video_info['width'], video_info['height']]
             class_id = obj_anno["category_id"]
             class_name = self.class_id2class_name[class_id]
