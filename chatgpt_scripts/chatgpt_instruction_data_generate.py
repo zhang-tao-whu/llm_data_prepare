@@ -2,7 +2,8 @@ import json
 import os
 from openai import OpenAI
 from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion,\
-    system_messages_positive_instruction_generate, system_messages_style_transfer, system_messages_rewrite
+    system_messages_positive_instruction_generate, system_messages_style_transfer, system_messages_rewrite,\
+    system_messages_negative_instruction_generate
 from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions
 import random
 import copy
@@ -102,6 +103,20 @@ class InstructionGenerater(object):
                                                       reasons})
         return conversations
 
+    def _generate_neg_data(self, caption1, caption2, motion1, motion2):
+        format_captions = "The captions: {caption1: \"" + caption1 + "\", " + "caption2: \"" + caption2 + \
+                          "\"}\n"
+        client = OpenAI(api_key=self.api_key, base_url=self.api_base)
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": 'system', "content": system_messages_negative_instruction_generate},
+                      {"role": "user", "content": "{}".format(format_captions)}],
+            temperature=0.01
+        )
+
+        return completion.choices[0].message.content
+
     def _change_style(self, words):
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)
 
@@ -134,7 +149,7 @@ class InstructionGenerater(object):
 
 
 generater = InstructionGenerater()
-ret = generater._generate_pos_data(caption1="A young, small, and dark-skinned monkey is sitting in the grass. It appears to be a baby monkey, as it is quite small and seems to be in close proximity to its mother. The monkey is sitting, possibly on the ground, and is looking upwards, seemingly at the camera.",
+ret = generater._generate_neg_data(caption1="An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.",
                                    caption2="A young, small, and dark-skinned monkey is sitting in the grass. It appears to be a baby monkey, as it is quite small and seems to be in close proximity to its mother.",
-                                   motion_caption="The object is moving to the right.")
+                                   )
 print(ret)
