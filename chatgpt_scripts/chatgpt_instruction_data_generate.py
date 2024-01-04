@@ -5,7 +5,8 @@ from chatgpt_scripts.system_messages import system_messages_caption_check, syste
     system_messages_positive_instruction_generate, system_messages_style_transfer, system_messages_rewrite,\
     system_messages_negative_instruction_generate, system_messages_motion_compare, system_messages_style_transfer_neg,\
     system_messages_rewrite_neg
-from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions
+from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions,\
+    justify_negative_answers, justify_negative_answers_briefly
 import random
 import copy
 
@@ -138,7 +139,13 @@ class InstructionGenerater(object):
         reasons = completion.choices[0].message.content + motion_compare
         reasons = self._change_style_neg(reasons)
         reasons = self._rewrite_neg(reasons)
-        return reasons
+
+        conversations = []
+        conversations.append({'from': 'human', "value": random_select(justify_questions) + ' ' + \
+                                                        random_select(reason_questions)})
+        conversations.append({'from': 'gpt', "value": random_select(justify_negative_answers) + ' ' + \
+                                                      reasons})
+        return conversations
 
     def _change_style(self, words):
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)

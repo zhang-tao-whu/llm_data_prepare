@@ -28,9 +28,38 @@ justify_positive_answers = [
     "Yes, they denote the same entity.",
     "Yes, they are referring to the identical object.",
 ]
+justify_negative_answers = [
+    "No, these two objects are not the same.",
+    "No, these two objects are different.",
+    "No, they are not the same object.",
+    "No, they are not identical.",
+    "No, they do not refer to the same entity.",
+    "No, they do not represent the same thing.",
+    "No, they are not the same entity.",
+    "No, they do not denote the same object.",
+    "No, they do not refer to the same thing.",
+    "No, they are not the same thing.",
+    "No, they do not denote the same entity.",
+    "No, they are not referring to the identical object.",
+    "No, these two objects are different.",
+    "No, they are distinct objects.",
+    "No, they are dissimilar.",
+    "No, they refer to separate entities.",
+    "No, they represent different things.",
+    "No, they are distinct entities.",
+    "No, they denote different objects.",
+    "No, they refer to different things.",
+    "No, they are distinct things.",
+    "No, they denote different entities.",
+    "No, they are referring to different objects.",
+]
 
 justify_positive_answers_briefly = [
     "Yes."
+]
+
+justify_negative_answers_briefly = [
+    "No."
 ]
 
 briefly_settings = [
