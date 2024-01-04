@@ -214,28 +214,28 @@ class InstructionGenerater(object):
                                                 bboxes=obj1['bboxes'], conversations=positive_instruction_data,
                                                 type='positive'))
 
-        # positive_instruction_data = self._generate_pos_data(obj2['captions'][0], obj2['captions'][1], obj2['motion'])
-        # ret.append(self._add_other_informations(image_paths=obj2['image_files'], segmentations=obj2['segmentations'],
-        #                                         image_size=[obj2['image_size'], obj2['image_size']],
-        #                                         bboxes=obj2['bboxes'], conversations=positive_instruction_data,
-        #                                         type='positive'))
-        #
-        # # generate negative datas
-        # negative_instruction_data = self._generate_neg_data(obj1['captions'][0], obj2['captions'][1],
-        #                                                     obj1['motion'], obj2['motion'])
-        # ret.append(self._add_other_informations(image_paths=[obj1['image_files'][0], obj2['image_files'][1]],
-        #                                         segmentations=[obj1['segmentations'][0], obj2['segmentations'][1]],
-        #                                         image_size=[obj1['image_size'], obj2['image_size']],
-        #                                         bboxes=[obj1['bboxes'][0], obj2['bboxes'][1]],
-        #                                         conversations=negative_instruction_data, type='negative'))
-        #
-        # negative_instruction_data = self._generate_neg_data(obj2['captions'][0], obj1['captions'][1],
-        #                                                     obj2['motion'], obj1['motion'])
-        # ret.append(self._add_other_informations(image_paths=[obj2['image_files'][0], obj1['image_files'][1]],
-        #                                         segmentations=[obj2['segmentations'][0], obj1['segmentations'][1]],
-        #                                         image_size=[obj2['image_size'], obj1['image_size']],
-        #                                         bboxes=[obj2['bboxes'][0], obj1['bboxes'][1]],
-        #                                         conversations=negative_instruction_data, type='negative'))
+        positive_instruction_data = self._generate_pos_data(obj2['captions'][0], obj2['captions'][1], obj2['motion'])
+        ret.append(self._add_other_informations(image_paths=obj2['image_files'], segmentations=obj2['segmentations'],
+                                                image_size=[obj2['image_size'], obj2['image_size']],
+                                                bboxes=obj2['bboxes'], conversations=positive_instruction_data,
+                                                type='positive'))
+
+        # generate negative datas
+        negative_instruction_data = self._generate_neg_data(obj1['captions'][0], obj2['captions'][1],
+                                                            obj1['motion'], obj2['motion'])
+        ret.append(self._add_other_informations(image_paths=[obj1['image_files'][0], obj2['image_files'][1]],
+                                                segmentations=[obj1['segmentations'][0], obj2['segmentations'][1]],
+                                                image_size=[obj1['image_size'], obj2['image_size']],
+                                                bboxes=[obj1['bboxes'][0], obj2['bboxes'][1]],
+                                                conversations=negative_instruction_data, type='negative'))
+
+        negative_instruction_data = self._generate_neg_data(obj2['captions'][0], obj1['captions'][1],
+                                                            obj2['motion'], obj1['motion'])
+        ret.append(self._add_other_informations(image_paths=[obj2['image_files'][0], obj1['image_files'][1]],
+                                                segmentations=[obj2['segmentations'][0], obj1['segmentations'][1]],
+                                                image_size=[obj2['image_size'], obj1['image_size']],
+                                                bboxes=[obj2['bboxes'][0], obj1['bboxes'][1]],
+                                                conversations=negative_instruction_data, type='negative'))
         return ret
 
 
