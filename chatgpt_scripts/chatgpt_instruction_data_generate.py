@@ -149,7 +149,7 @@ class InstructionGenerater(object):
 
 
 generater = InstructionGenerater()
-ret = generater._generate_neg_data(caption1="An adult, possibly male, gorilla is prominently featured in the image. This gorilla is standing upright, with its full body visible, and appears to be holding a baby gorilla in its arms. The two gorillas are standing in a lush green field, surrounded by trees.",
-                                   caption2="A young, small, and dark-skinned monkey is sitting in the grass. It appears to be a baby monkey, as it is quite small and seems to be in close proximity to its mother.",
+ret = generater._generate_neg_data(caption1="A car is visible in the background, positioned behind the bus. It appears to be a dark-colored SUV, possibly black, and is located on the right side of the bus.",
+                                   caption2="A car is parked behind the bus, visible through the window. It's located on the right side of the bus, and appears to be a darker vehicle, possibly black.",
                                    motion1=None, motion2=None)
 print(ret)
