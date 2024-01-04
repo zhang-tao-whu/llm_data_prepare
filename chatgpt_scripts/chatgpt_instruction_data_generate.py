@@ -132,7 +132,7 @@ class InstructionGenerater(object):
         motion_compare = self._compare_motion(motion1, motion2)
         if "True" in motion_compare:
             motion_compare = " The above differences are sufficient to determine that these two objects are not the same, despite their similar movement directions."
-            motion = motion1.split('object')[1:]
+            motion = motion1.split('object')[-1]
             motion = " These two objects" + motion
             motion_compare = motion_compare[:-1] + "({}).".format(motion)
         reasons = completion.choices[0].message.content + motion_compare
