@@ -2,7 +2,7 @@ import json
 import os
 from openai import OpenAI
 from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion,\
-    system_messages_positive_instruction_generate, system_messages_style_transfer
+    system_messages_positive_instruction_generate, system_messages_style_transfer, system_messages_rewrite
 from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions
 import random
 import copy
@@ -67,6 +67,17 @@ class InstructionGenerater(object):
         obj['motion'] = motion_cap
         return
 
+    def _rewrite(self, words):
+        client = OpenAI(api_key=self.api_key, base_url=self.api_base)
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": 'system', "content": system_messages_rewrite},
+                      {"role": "user", "content": "{}".format(words)}],
+            temperature=0.01
+        )
+        return completion.choices[0].message.content
+
     def _generate_pos_data(self, caption1, caption2, motion_caption):
         format_captions = "The captions and motion: {caption1: \"" + caption1 + "\", " + "caption2: \"" + caption2 + \
                           "\"}\n"
@@ -82,6 +93,7 @@ class InstructionGenerater(object):
 
         reasons = completion.choices[0].message.content + motion_reason
         reasons = self._change_style(reasons)
+        reasons = self._rewrite(reasons)
 
         conversations = []
         conversations.append({'from': 'human', "value": random_select(justify_questions) + ' ' +\
