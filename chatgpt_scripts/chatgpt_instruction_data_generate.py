@@ -304,10 +304,10 @@ class YouTubeVIS_Annotations(object):
             return None
         n_objects = len(objects_annotations)
 
-        object_idx1 = random.randint(0, n_objects)
-        object_idx2 = random.randint(0, n_objects)
+        object_idx1 = random.randint(0, n_objects - 1)
+        object_idx2 = random.randint(0, n_objects - 1)
         while object_idx1 == object_idx2:
-            object_idx2 = random.randint(0, n_objects)
+            object_idx2 = random.randint(0, n_objects - 1)
         min_idx, max_idx = min(object_idx1, object_idx2), max(object_idx1, object_idx2)
         object_anno_1 = copy.deepcopy(objects_annotations[min_idx])
         object_anno_2 = copy.deepcopy(objects_annotations[max_idx])
