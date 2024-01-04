@@ -3,7 +3,8 @@ import os
 from openai import OpenAI
 from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion,\
     system_messages_positive_instruction_generate, system_messages_style_transfer, system_messages_rewrite,\
-    system_messages_negative_instruction_generate
+    system_messages_negative_instruction_generate, system_messages_motion_compare, system_messages_style_transfer_neg,\
+    system_messages_rewrite_neg
 from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions
 import random
 import copy
@@ -103,6 +104,19 @@ class InstructionGenerater(object):
                                                       reasons})
         return conversations
 
+    def _compare_motion(self, motion1, motion2):
+        format_captions = "Input: {object1: \"" + motion1 + "\", " + "object2: \"" + motion2 + \
+                          "\"}\n"
+        client = OpenAI(api_key=self.api_key, base_url=self.api_base)
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": 'system', "content": system_messages_motion_compare},
+                      {"role": "user", "content": "{}".format(format_captions)}],
+            temperature=0.01
+        )
+        return completion.choices[0].message.content
+
     def _generate_neg_data(self, caption1, caption2, motion1, motion2):
         format_captions = "The captions: {caption1: \"" + caption1 + "\", " + "caption2: \"" + caption2 + \
                           "\"}\n"
@@ -115,7 +129,16 @@ class InstructionGenerater(object):
             temperature=0.01
         )
 
-        return completion.choices[0].message.content
+        motion_compare = self._compare_motion(motion1, motion2)
+        if "True" in motion_compare:
+            motion_compare = " The above differences are sufficient to determine that these two objects are not the same, despite their similar movement directions."
+            motion = motion1.split('object')[1:]
+            motion = " These two objects" + motion
+            motion_compare = motion_compare[:-1] + "({}).".format(motion)
+        reasons = completion.choices[0].message.content + motion_compare
+        reasons = self._change_style_neg(reasons)
+        reasons = self._rewrite_neg(reasons)
+        return reasons
 
     def _change_style(self, words):
         client = OpenAI(api_key=self.api_key, base_url=self.api_base)
@@ -123,6 +146,28 @@ class InstructionGenerater(object):
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": 'system', "content": system_messages_style_transfer},
+                      {"role": "user", "content": "{}".format(words)}],
+            temperature=0.01
+        )
+        return completion.choices[0].message.content
+
+    def _change_style_neg(self, words):
+        client = OpenAI(api_key=self.api_key, base_url=self.api_base)
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": 'system', "content": system_messages_style_transfer_neg},
+                      {"role": "user", "content": "{}".format(words)}],
+            temperature=0.01
+        )
+        return completion.choices[0].message.content
+
+    def _rewrite_neg(self, words):
+        client = OpenAI(api_key=self.api_key, base_url=self.api_base)
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": 'system', "content": system_messages_rewrite_neg},
                       {"role": "user", "content": "{}".format(words)}],
             temperature=0.01
         )
@@ -151,5 +196,6 @@ class InstructionGenerater(object):
 generater = InstructionGenerater()
 ret = generater._generate_neg_data(caption1="A car is visible in the background, positioned behind the bus. It appears to be a dark-colored SUV, possibly black, and is located on the right side of the bus.",
                                    caption2="A car is parked behind the bus, visible through the window. It's located on the right side of the bus, and appears to be a darker vehicle, possibly black.",
-                                   motion1=None, motion2=None)
+                                   motion1="The object is moving to the right.",
+                                   motion2="The object is moving to the right.")
 print(ret)
