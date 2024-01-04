@@ -196,6 +196,6 @@ class InstructionGenerater(object):
 generater = InstructionGenerater()
 ret = generater._generate_neg_data(caption1="A car is visible in the background, positioned behind the bus. It appears to be a dark-colored SUV, possibly black, and is located on the right side of the bus.",
                                    caption2="A car is parked behind the bus, visible through the window. It's located on the right side of the bus, and appears to be a darker vehicle, possibly black.",
-                                   motion1="The object is moving to the right.",
+                                   motion1="The object is moving to the left.",
                                    motion2="The object is moving to the right.")
 print(ret)
