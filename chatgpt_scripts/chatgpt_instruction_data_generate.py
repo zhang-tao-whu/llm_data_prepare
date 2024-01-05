@@ -98,6 +98,7 @@ class InstructionGenerater(object):
         reasons = completion.choices[0].message.content + motion_reason
         reasons = self._change_style(reasons)
         reasons = self._rewrite(reasons)
+        reasons = reasons.replace("\n\n", " ")
 
         conversations = []
         conversations.append({'from': 'human', "value": random_select(justify_questions) + ' ' +\
@@ -140,6 +141,7 @@ class InstructionGenerater(object):
         reasons = completion.choices[0].message.content + motion_compare
         reasons = self._change_style_neg(reasons)
         reasons = self._rewrite_neg(reasons)
+        reasons = reasons.replace("\n\n", " ")
 
         conversations = []
         conversations.append({'from': 'human', "value": random_select(justify_questions) + ' ' + \
