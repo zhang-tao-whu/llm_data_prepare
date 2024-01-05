@@ -22,7 +22,7 @@ class InstructionGenerater(object):
         self.api_key = my_keys
         self.api_base = "https://cd.aiskt.com/v1"
         self.gen_data_nums = 0
-        self.generated_num = 0
+        self.generated_num = 1
 
     def _check_obj(self, obj):
         for caption in obj["captions"]:
@@ -366,7 +366,7 @@ generater = InstructionGenerater()
 ytvis_datas = YouTubeVIS_Annotations(json_file='./processed_0.json')
 
 
-if generater.generated_num < 12:
+while generater.generated_num < 12:
     obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
     instruction_data = generater.get_instruction_datas(obj1, obj2)
     print('-------------------------')
