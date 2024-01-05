@@ -369,6 +369,7 @@ ytvis_datas = YouTubeVIS_Annotations(json_file='./processed_0.json')
 if generater.generated_num < 12:
     obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
     instruction_data = generater.get_instruction_datas(obj1, obj2)
+    print('-------------------------')
     while len(instruction_data) == 0:
         print('-------------------------')
         obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
