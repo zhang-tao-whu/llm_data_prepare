@@ -370,8 +370,9 @@ if generater.generated_num < 12:
     obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
     instruction_data = generater.get_instruction_datas(obj1, obj2)
     while len(instruction_data) == 0:
+        print('-------------------------')
         obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
         instruction_data = generater.get_instruction_datas(obj1, obj2)
-        print(instruction_data)
-        with open('./reasoning_datas_v1/{}.json'.format(generater.generated_num), 'w') as f:
-            json.dump(instruction_data, f)
+    print(instruction_data)
+    with open('./reasoning_datas_v1/{}.json'.format(generater.generated_num), 'w') as f:
+        json.dump(instruction_data, f)
