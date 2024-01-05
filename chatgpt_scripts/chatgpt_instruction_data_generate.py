@@ -22,6 +22,7 @@ class InstructionGenerater(object):
         self.api_key = my_keys
         self.api_base = "https://cd.aiskt.com/v1"
         self.gen_data_nums = 0
+        self.generated_num = 0
 
     def _check_obj(self, obj):
         for caption in obj["captions"]:
@@ -236,6 +237,8 @@ class InstructionGenerater(object):
                                                 image_size=[obj2['image_size'], obj1['image_size']],
                                                 bboxes=[obj2['bboxes'][0], obj1['bboxes'][1]],
                                                 conversations=negative_instruction_data, type='negative'))
+
+        self.generated_num += 1
         return ret
 
 
@@ -361,13 +364,12 @@ generater = InstructionGenerater()
 ytvis_datas = YouTubeVIS_Annotations(json_file='./processed_0.json')
 
 
-obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
-instruction_data = generater.get_instruction_datas(obj1, obj2)
-n_try=0
-while len(instruction_data) == 0:
-    if n_try >= 10:
-        break
+if generater.generated_num < 12:
     obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
     instruction_data = generater.get_instruction_datas(obj1, obj2)
-    n_try += 1
-print(instruction_data)
+    while len(instruction_data) == 0:
+        obj1, obj2 = ytvis_datas._get_two_objects_from_2frames()
+        instruction_data = generater.get_instruction_datas(obj1, obj2)
+        print(instruction_data)
+        with open('./reasoning_datas_v1/{}.json'.format(generater.generated_num), 'w') as f:
+            json.dump(instruction_data, f)
