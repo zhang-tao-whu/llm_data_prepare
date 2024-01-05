@@ -301,7 +301,7 @@ class YouTubeVIS_Annotations(object):
             ret["categories"] = class_name
             return ret
 
-        select_idx = random.randint(0, len(self.video_ids))
+        select_idx = random.randint(0, len(self.video_ids) - 1)
         video_id = self.video_ids[select_idx]
 
         objects_annotations = self.video_id2annotations[video_id]
