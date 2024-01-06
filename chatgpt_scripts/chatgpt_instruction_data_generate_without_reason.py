@@ -1,11 +1,5 @@
 import json
-import os
-from openai import OpenAI
-from chatgpt_scripts.system_messages import system_messages_caption_check, system_messages_motion,\
-    system_messages_positive_instruction_generate, system_messages_style_transfer, system_messages_rewrite,\
-    system_messages_negative_instruction_generate, system_messages_motion_compare, system_messages_style_transfer_neg,\
-    system_messages_rewrite_neg
-from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions, reason_questions,\
+from chatgpt_scripts.question_answers import justify_positive_answers, justify_questions,\
     justify_negative_answers, justify_negative_answers_briefly, briefly_settings, justify_positive_answers_briefly
 import random
 import copy

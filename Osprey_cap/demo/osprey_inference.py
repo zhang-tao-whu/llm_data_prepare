@@ -31,7 +31,7 @@ def show_mask(mask, image, random_color=True, img_trans=0.9, mask_trans=0.5, ret
     return image
 
 class Osprey():
-    def __init__(self, model_path, device='cuda'):
+    def __init__(self, model_path, device='cuda', pre_categories=[]):
         disable_torch_init()
         model_path = os.path.expanduser(model_path)
         self.tokenizer = AutoTokenizer.from_pretrained(
@@ -83,9 +83,40 @@ class Osprey():
 
         self.input_ids_detailed = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(self.model.device)
 
+        # add more questions
+        self.cat2detailed_questions_input_ids = {}
+        for cls in pre_categories:
+            conv = conv_templates['osprey_v1'].copy()
+            detailed_question = "Can you provide me with a detailed description of the {} in the picture marked by <mask><pos>?".format(cls)
+            qs = begin_str + detailed_question
+            conv.append_message(conv.roles[0], qs)
+            conv.append_message(conv.roles[1], None)
+            prompt = conv.get_prompt()
+            input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(
+                        self.model.device)
+            self.cat2detailed_questions_input_ids[cls] = input_ids
+
+        self.other_questions_dicts = {
+            'color': 'What is the color of <mask><pos>?',
+            'wearing': 'Please describe the attire of <mask><pos>.',
+            'facing': 'What direction is <mask><pos> facing?',
+            'orientation': 'What is the orientation of <mask><pos>?',
+            'doing': 'What is <mask><pos> doing?',
+            'posture': 'Please describe the posture of <mask><pos>.',
+            'relation': "Please describe the relationship between <mask><pos> and the surrounding objects."
+        }
+        self.briefly_questions_to_imput_ids = {}
+        for briefly_q in self.other_questions_dicts.keys():
+            conv = conv_templates['osprey_v1'].copy()
+            qs = begin_str + self.other_questions_dicts[briefly_q]
+            conv.append_message(conv.roles[0], qs)
+            conv.append_message(conv.roles[1], None)
+            prompt = conv.get_prompt()
+            input_ids = self.input_ids_detailed = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX,
+                                                                        return_tensors='pt').unsqueeze(0).to(self.model.device)
+            self.briefly_questions_to_imput_ids[briefly_q] = input_ids
+
         self.stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
-
-
 
     def osprey_predict(self, img, mask, type=None):
         image = self.image_processor.preprocess(img,
@@ -155,3 +186,107 @@ class Osprey():
             else:
                 break
         return outputs_str
+
+    def osprey_predict_more(self, img, mask, category, other_questions=[]):
+        image = self.image_processor.preprocess(img,
+                                                do_center_crop=False,
+                                                return_tensors='pt')['pixel_values'][0]
+
+        image = torch.nn.functional.interpolate(image.unsqueeze(0),
+                                                size=(512, 512),
+                                                mode='bilinear',
+                                                align_corners=False).squeeze(0)
+
+        masks = torch.Tensor(mask).unsqueeze(0).to(self.model.device)
+
+        # first for detailed description
+        input_masks = [masks.half()]
+        input_images = image.unsqueeze(0).half().to(self.model.device)
+
+        outputs_dict = {}
+        with torch.inference_mode():
+            self.model.orig_forward = self.model.forward
+            self.model.forward = partial(self.model.orig_forward,
+                                         img_metas=[None],
+                                         masks=input_masks)
+
+            input_ids = self.cat2detailed_questions_input_ids[category]
+            output_ids = self.model.generate(
+                input_ids,
+                images=input_images,
+                do_sample=True,
+                temperature=0.001,
+                max_new_tokens=1024,
+                use_cache=True,
+                num_beams=1,
+                # stopping_criteria=[stopping_criteria]
+            )
+            input_token_len = input_ids.shape[1]
+            n_diff_input_output = (
+                    input_ids != output_ids[:, :input_token_len]).sum().item()
+            if n_diff_input_output > 0:
+                print(
+                    f'[Warning] {n_diff_input_output} output_ids are not the same as the input_ids')
+            outputs = self.tokenizer.batch_decode(output_ids[:, input_token_len:],
+                                                  skip_special_tokens=True)[0]
+            outputs = outputs.strip()
+            if outputs.endswith(self.stop_str):
+                outputs = outputs[:-len(self.stop_str)]
+            outputs = outputs.strip()
+            if ':' in outputs:
+                outputs = outputs.split(':')[1]
+
+            outputs_list = outputs.split('.')
+            outputs_list_final = []
+            outputs_str = ''
+            for output in outputs_list:
+                if output not in outputs_list_final:
+                    if output == '':
+                        continue
+                    outputs_list_final.append(output)
+                    outputs_str += output + '.'
+                else:
+                    break
+            outputs_dict['caption'] = outputs_str
+
+            for other_q in other_questions:
+                input_ids = self.other_questions_dicts[other_q]
+                output_ids = self.model.generate(
+                    input_ids,
+                    images=input_images,
+                    do_sample=True,
+                    temperature=0.001,
+                    max_new_tokens=1024,
+                    use_cache=True,
+                    num_beams=1,
+                    # stopping_criteria=[stopping_criteria]
+                )
+                input_token_len = input_ids.shape[1]
+                n_diff_input_output = (
+                        input_ids != output_ids[:, :input_token_len]).sum().item()
+                if n_diff_input_output > 0:
+                    print(
+                        f'[Warning] {n_diff_input_output} output_ids are not the same as the input_ids')
+                outputs = self.tokenizer.batch_decode(output_ids[:, input_token_len:],
+                                                      skip_special_tokens=True)[0]
+                outputs = outputs.strip()
+                if outputs.endswith(self.stop_str):
+                    outputs = outputs[:-len(self.stop_str)]
+                outputs = outputs.strip()
+                if ':' in outputs:
+                    outputs = outputs.split(':')[1]
+
+                outputs_list = outputs.split('.')
+                outputs_list_final = []
+                outputs_str = ''
+                for output in outputs_list:
+                    if output not in outputs_list_final:
+                        if output == '':
+                            continue
+                        outputs_list_final.append(output)
+                        outputs_str += output + '.'
+                    else:
+                        break
+                outputs_dict[other_q] = outputs_str
+            self.model.forward = self.model.orig_forward
+        return outputs_dict
