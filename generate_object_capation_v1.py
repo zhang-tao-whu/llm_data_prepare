@@ -85,7 +85,7 @@ class YouTubeVIS_Annotations(object):
                         self.cur_valid.append(True)
                         image_annotation.append(self._rle2mask(object_annotation['segmentations'][image_id],
                                                                h=height, w=width))
-                        annotation_categories.append(object_annotation['category_id'])
+                        annotation_categories.append(self.class_id2class_name[object_annotation['category_id']])
                 self.allow_push = True
                 yield image_path, image_annotation, annotation_categories
 
