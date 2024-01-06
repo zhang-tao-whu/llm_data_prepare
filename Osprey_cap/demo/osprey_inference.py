@@ -250,7 +250,7 @@ class Osprey():
             outputs_dict['caption'] = outputs_str
 
             for other_q in other_questions:
-                input_ids = self.other_questions_dicts[other_q]
+                input_ids = self.briefly_questions_to_imput_ids[other_q]
                 output_ids = self.model.generate(
                     input_ids,
                     images=input_images,
