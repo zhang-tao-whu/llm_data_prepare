@@ -5,6 +5,7 @@ from Osprey_cap.demo.osprey_inference import Osprey
 import cv2
 import os
 from tqdm import tqdm
+import random
 
 class YouTubeVIS_Annotations(object):
 
@@ -16,6 +17,8 @@ class YouTubeVIS_Annotations(object):
         self.video_id2annotations = self._get_video_annotations()
         self.video_ids = list(self.videos.keys())
         self.video_ids.sort()
+        random.shuffle(self.video_ids)
+        
         self.class_id2class_name = self._get_class_name()
         print("buided indexes ...")
 
