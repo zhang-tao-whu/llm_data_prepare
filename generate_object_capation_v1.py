@@ -17,8 +17,7 @@ class YouTubeVIS_Annotations(object):
         self.video_id2annotations = self._get_video_annotations()
         self.video_ids = list(self.videos.keys())
         self.video_ids.sort()
-        random.shuffle(self.video_ids)
-        
+
         self.class_id2class_name = self._get_class_name()
         print("buided indexes ...")
 
@@ -217,9 +216,8 @@ class Mask2Caption(object):
             captions.append(caption)
         return captions
 
-work_id = 3
-need_process_nums = 750
-
+work_id = 0
+need_process_nums = 100
 
 ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', split=(work_id * need_process_nums, work_id * need_process_nums + need_process_nums))
 # ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', debug=True)
@@ -231,11 +229,7 @@ for image_path, image_annotations, annotation_categories in ytvis_annotations.ge
         captions = mask2caption.process_image_masks(image_path, image_annotations, annotation_categories)
     else:
         captions = []
-    print(image_path, annotation_categories)
-    print(captions)
-    break
-    # ytvis_annotations.push_image_captions(captions)
+    ytvis_annotations.push_image_captions(captions)
 
-
-# ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
+ytvis_annotations.save_processed_json_file('./processed_{}.json'.format(work_id))
 
