@@ -148,7 +148,7 @@ class YouTubeVIS_Annotations(object):
 
 class Mask2Caption(object):
     def __init__(self, osprey_checkpoint, image_dir):
-        self.osprey_model = Osprey(osprey_checkpoint)
+        # self.osprey_model = Osprey(osprey_checkpoint)
         self.image_dir = image_dir
 
         self.superclsss_questions = {
@@ -199,10 +199,8 @@ class Mask2Caption(object):
             "whale": 'animal',
             "zebra": 'animal'
         }
-
+        self.osprey_model = Osprey(osprey_checkpoint, pre_categories=list(self.class2superclass.keys()))
     def process_image_masks(self, image_path, masks, categories):
-        def _preprocess_category_name(name):
-            return name.replace('_', ' ')
         image_path = os.path.join(self.image_dir, image_path)
         captions = []
         image = cv2.imread(image_path)[:, :, ::-1]
@@ -210,7 +208,7 @@ class Mask2Caption(object):
             mask = mask[:, :, 0]
             # mask = mask[None, :, :]
             caption = self.osprey_model.osprey_predict_more(
-                image, mask, category=_preprocess_category_name(category),
+                image, mask, category=category,
                 other_questions=self.superclsss_questions[self.class2superclass[category]])
             # caption = self.osprey_model.osprey_predict(image, mask, type='short description')
             captions.append(caption)

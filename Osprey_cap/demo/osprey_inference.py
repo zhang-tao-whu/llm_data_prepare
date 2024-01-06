@@ -87,7 +87,7 @@ class Osprey():
         self.cat2detailed_questions_input_ids = {}
         for cls in pre_categories:
             conv = conv_templates['osprey_v1'].copy()
-            detailed_question = "Can you provide me with a detailed description of the {} in the picture marked by <mask><pos>?".format(cls)
+            detailed_question = "Can you provide me with a detailed description of the {} in the picture marked by <mask><pos>?".format(cls.replace('_', ' '))
             qs = begin_str + detailed_question
             conv.append_message(conv.roles[0], qs)
             conv.append_message(conv.roles[1], None)
