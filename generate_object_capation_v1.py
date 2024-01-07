@@ -216,7 +216,7 @@ class Mask2Caption(object):
             captions.append(caption)
         return captions
 
-work_id = 3
+work_id = 4
 need_process_nums = 100
 
 ytvis_annotations = YouTubeVIS_Annotations('./ytvis21/train/instances.json', split=(work_id * need_process_nums, work_id * need_process_nums + need_process_nums))
