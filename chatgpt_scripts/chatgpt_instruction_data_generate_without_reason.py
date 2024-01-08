@@ -9,8 +9,6 @@ def random_select(data_list):
     idx = random.randint(0, length - 1)
     return copy.deepcopy(data_list[idx])
 
-my_keys = 'sk-hlV40Lxa6Ce1OwJg89083e' + '8b005040D2A10eFa2c096631Bd'
-
 class InstructionGeneraterWithoutReason(object):
     def __init__(self):
         self.generated_num = 1
