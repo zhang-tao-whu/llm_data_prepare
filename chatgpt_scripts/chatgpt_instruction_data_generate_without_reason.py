@@ -192,7 +192,7 @@ class YouTubeVIS_Annotations(object):
         return requeied_data
 
 generater = InstructionGeneraterWithoutReason()
-ytvis_datas = YouTubeVIS_Annotations(json_file='./processed_0.json')
+ytvis_datas = YouTubeVIS_Annotations(json_file='./ytvis21/train.json')
 
 while generater.generated_num < 1500:
     if generater.generated_num < 750:
