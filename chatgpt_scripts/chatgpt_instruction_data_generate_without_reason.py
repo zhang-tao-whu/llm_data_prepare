@@ -176,7 +176,13 @@ class YouTubeVIS_Annotations(object):
 
         video_info = copy.deepcopy(self.videos[video_id])
         obj1 = reorginize_data(object_anno_1, video_info, select_frame)
+        if None in obj1['segmentations']:
+            print("there is a bugs !!!")
+            return None
         obj2 = reorginize_data(object_anno_2, video_info, select_frame)
+        if None in obj2['segmentations']:
+            print("there is a bugs !!!")
+            return None
         return obj1, obj2
 
     def _get_two_objects_from_2frames(self, same_category=True):
